@@ -33,12 +33,17 @@ SELF=skim
 
 setup_stage ${STAGEDIR}
 
-MAKE_ARGS="__MAKE_CONF=${CONFIGDIR}/make.conf PRODUCT_FLAVOUR=${PRODUCT_FLAVOUR}"
+MAKE_ARGS="
+__MAKE_CONF=${CONFIGDIR}/make.conf
+PRODUCT_FLAVOUR=${PRODUCT_FLAVOUR}
+PRODUCT_PHP=${PRODUCT_PHP}
+"
 
 if [ -z "${PORTS_LIST}" ]; then
 	PORTS_LIST=$(
 cat ${CONFIGDIR}/skim.conf ${CONFIGDIR}/ports.conf | \
     while read PORT_ORIGIN PORT_IGNORE; do
+	eval PORT_ORIGIN=${PORT_ORIGIN}
 	if [ "$(echo ${PORT_ORIGIN} | colrm 2)" = "#" ]; then
 		continue
 	fi

@@ -35,6 +35,7 @@ if [ -z "${PORTS_LIST}" ]; then
 	PORTS_LIST=$(
 cat ${CONFIGDIR}/skim.conf ${CONFIGDIR}/ports.conf | \
     while read PORT_ORIGIN PORT_IGNORE; do
+	eval PORT_ORIGIN=${PORT_ORIGIN}
 	if [ "$(echo ${PORT_ORIGIN} | colrm 2)" = "#" ]; then
 		continue
 	fi
@@ -86,6 +87,7 @@ echo "${PORTS_LIST}" | while read PORT_ORIGIN; do
 	echo ">>> Fetching \${PORT_ORIGIN}..."
 	make -C ${PORTSDIR}/\${PORT_ORIGIN} fetch-recursive \
 	    PRODUCT_FLAVOUR=${PRODUCT_FLAVOUR} \
+	    PRODUCT_PHP=${PRODUCT_PHP} \
 	    UNAME_r=\$(freebsd-version)
 done
 EOF

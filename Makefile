@@ -63,6 +63,7 @@ NAME?=		WITwall
 TYPE?=		${NAME:tl}
 SUFFIX?=	#-devel
 FLAVOUR?=	OpenSSL
+PHP?=		70
 _ARCH!=		uname -p
 ARCH?=		${_ARCH}
 KERNEL?=	SMP
@@ -89,7 +90,7 @@ PORTSDIR?=	/usr/ports
 PORTSBRANCH?=	master
 COREDIR?=	/usr/core
 COREBRANCH?=	master
-COREENV?=	#CORE_PHP=71
+COREENV?=	CORE_PHP=${PHP}
 SRCDIR?=	/usr/src
 SRCBRANCH?=	master
 
@@ -135,7 +136,8 @@ ${STEP}: lint-steps
 	    -b ${SRCBRANCH} -B ${PORTSBRANCH} -e ${PLUGINSBRANCH} \
 	    -g ${TOOLSBRANCH} -E ${COREBRANCH} -G ${PORTSREFBRANCH} \
 	    -H "${COREENV}" -Q "${QUICK}" -u "${UEFI:tl}" -U "${SUFFIX}" \
-	    -V "${ADDITIONS}" -O "${GITBASE}" ${${STEP}_ARGS}
+	    -V "${ADDITIONS}" -O "${GITBASE}" -q "${PHP}" \
+	    ${${STEP}_ARGS}
 .endfor
 
 .for SCRIPT in ${SCRIPTS}
